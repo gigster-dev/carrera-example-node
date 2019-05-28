@@ -29,12 +29,12 @@
         "cisnyk": "bash -c \"mkdir -p test-results/snyk && snyk test --json --dev > test-results/snyk/results.json \" && npm run cisnyk:success || npm run cisnyk:failure",
         "cisnyk:success": "bash .circleci/snyk_success.sh",
         "cisnyk:failure": "bash .circleci/snyk_failure.sh && false",
+
         "test:watch": "jest --watch"
     },
     "author": "Jakub Synowiec <github@jakubsynowiec.info>",
     "license": "Apache-2.0",
     "dependencies": {
-        "@graphql-codegen/cli": "^1.0.0",
         "@snyk/nodejs-runtime-agent": "^1.45.1",
         "tslib": "~1.9.3"
     }
