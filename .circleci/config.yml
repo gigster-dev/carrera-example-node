@@ -24,7 +24,7 @@ jobs: # a collection of steps
             - ./node_modules
       - run:
           name: Run tests
-          command: jest --ci --coverage --runInBand --reporters=default --reporters=jest-junit
+          command: npm run citest
           environment:
             JEST_JUNIT_OUTPUT: "/tmp/test-results.xml"
       - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/

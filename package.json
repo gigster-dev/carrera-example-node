@@ -25,6 +25,7 @@
         "build:watch": "tsc -w -p tsconfig.release.json",
         "lint": "tslint -t stylish --project \"tsconfig.json\"",
         "test": "jest --coverage --reporters=default",
+        "citest": "jest --ci --coverage --runInBand --reporters=default --reporters=jest-junit",
         "test:watch": "jest --watch"
     },
     "author": "Jakub Synowiec <github@jakubsynowiec.info>",
