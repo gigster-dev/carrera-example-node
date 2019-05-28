@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="Snyk tests" tests="1" failures="1">
-    <testcase classname="security" name="vulnerabilities">
-        <failure>_FAILURE_STRING_</failure>
-    </testcase>
+<testsuites name="Snyk tests" tests="1" failures="1" time="0.001">
+    <testsuite name="Security" errors="0" failures="1" skipped="0" timestamp="_TIMESTAMP_STRING_" time="0.001" tests="1">
+        <testcase classname="node modules" name="vulnerabilities" time="0.001">
+            <failure>_FAILURE_STRING_</failure>
+        </testcase>
+    </testsuite>
 </testsuites>

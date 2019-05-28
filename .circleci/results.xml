@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="Snyk tests" tests="1" failures="0">
-    <testcase classname="security" name="vulnerabilities">
-    </testcase>
+<testsuites name="Snyk tests" tests="1" failures="0" time="0.001">
+    <testsuite name="Security" errors="0" failures="0" skipped="0" timestamp="_TIMESTAMP_STRING_" time="0.001" tests="1">
+        <testcase classname="security" name="vulnerabilities" time="0.001">
+        </testcase>
+    </testsuite>
 </testsuites>
