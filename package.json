@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "description": "Minimalistic boilerplate to quick-start Node.js development in TypeScript.",
     "engines": {
-        "node": ">= 10.13 <11"
+        "node": ">= 10.13"
     },
     "devDependencies": {
         "@types/jest": "^24.0.0",
@@ -26,6 +26,9 @@
         "lint": "tslint -t stylish --project \"tsconfig.json\"",
         "test": "jest --coverage --reporters=default",
         "citest": "jest --ci --coverage --runInBand --reporters=default --reporters=jest-junit",
+        "cisnyk": "bash -c \"mkdir -p test-results/snyk && snyk test --json --dev > test-results/snyk/results.json \" && npm run cisnyk:success || npm run cisnyk:failure",
+        "cisnyk:success": "cp .circleci/results.xml test-results/snyk",
+        "cisnyk:failure": "bash -c \"sed <.circleci/failure_results.xml \\\"s%_FAILURE_STRING_%$(jq <test-results/snyk/results.json .summary)%\\\" >test-results/snyk/results.xml\" && false",
         "test:watch": "jest --watch"
     },
     "author": "Jakub Synowiec <github@jakubsynowiec.info>",
