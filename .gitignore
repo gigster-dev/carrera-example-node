@@ -9,6 +9,9 @@ node_modules/
 # Coverage
 coverage
 
+# Test results
+test-results/
+
 # Transpiled files
 build/
 
