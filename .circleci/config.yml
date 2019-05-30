@@ -42,13 +42,14 @@ jobs: # a collection of steps
           name: Run Sonarqube scanner
           command: |
             export SONAR_SCANNER_OPTS="-Xmx2048m"
-            eval ./sonar-scanner-3.2.0.1227-linux/bin/sonar-scanner \
+            eval ./sonar-scanner-3.2.0.1227-linux/bin/sonar-scanner -X \
               -Dsonar.projectKey=carrera-example-node \
-              -Dsonar.sources=. \
-              -Dsonar.sourceEncoding=US-ASCII \
+              -Dsonar.sources=./src \
+              -Dsonar.tests=./__tests__ \
+              -Dsonar.sourceEncoding=UTF-8 \
               -Dsonar.exclusions=vendor/bundle/** \
               -Dsonar.typescript.lcov.reportPaths=./coverage/lcov-report \
-              -Dsonar.genericcoverage.unitTestReportPaths=./test-results/jestSonar/test-results.xml \
+              -Dsonar.testExecutionReportPaths=./test-results/jestSonar/test-results.xml \
               -Dsonar.host.url=http://34.73.164.186:9000 \
               -Dsonar.projectVersion=${CIRCLE_BRANCH} \
               -Dsonar.login=${SONARQUBE_TOKEN}
