@@ -48,7 +48,7 @@ jobs: # a collection of steps
               -Dsonar.tests=./__tests__ \
               -Dsonar.sourceEncoding=UTF-8 \
               -Dsonar.exclusions=vendor/bundle/** \
-              -Dsonar.typescript.lcov.reportPaths=./coverage/lcov-report \
+              -Dsonar.typescript.lcov.reportPaths=./coverage/lcov.info \
               -Dsonar.testExecutionReportPaths=./test-results/jestSonar/test-results.xml \
               -Dsonar.host.url=http://34.73.164.186:9000 \
               -Dsonar.projectVersion=${CIRCLE_BRANCH} \
