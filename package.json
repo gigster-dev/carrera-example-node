@@ -10,6 +10,7 @@
         "@types/node": "^10.14.0",
         "jest": "~24.8.0",
         "jest-junit": "^6.4.0",
+        "jest-sonar-reporter": "^2.0.0",
         "prettier": "~1.17.0",
         "rimraf": "^2.6.3",
         "ts-jest": "^24.0.0",
@@ -29,7 +30,6 @@
         "cisnyk": "bash -c \"mkdir -p test-results/snyk && snyk test --json --dev > test-results/snyk/results.json \" && npm run cisnyk:success || npm run cisnyk:failure",
         "cisnyk:success": "bash .circleci/snyk_success.sh",
         "cisnyk:failure": "bash .circleci/snyk_failure.sh && false",
-
         "test:watch": "jest --watch"
     },
     "author": "Jakub Synowiec <github@jakubsynowiec.info>",
@@ -37,5 +37,10 @@
     "dependencies": {
         "@snyk/nodejs-runtime-agent": "^1.45.1",
         "tslib": "~1.9.3"
+    },
+    "jestSonar": {
+        "reportPath": "test-results/jestSonar",
+        "reportFile": "test-results.xml",
+        "indent": 4
     }
 }

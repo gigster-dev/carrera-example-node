@@ -1,5 +1,6 @@
 module.exports = {
     reporters: ["default", "jest-junit"],
+    testResultsProcessor: "jest-sonar-reporter",
     testEnvironment: "node",
     transform: {
         "^.+\\.tsx?$": "ts-jest",

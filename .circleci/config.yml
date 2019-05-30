@@ -32,6 +32,26 @@ jobs: # a collection of steps
           name: Run snyk tests
           command: npm run cisnyk
 
+      - run:
+        name: Install Sonarqube scanner
+        command: |
+          wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip
+          unzip sonar-scanner-cli-3.2.0.1227-linux.zip
+
+      - run:
+        name: Run Sonarqube scanner
+        command: |
+          eval ./sonar-scanner-3.2.0.1227-linux/bin/sonar-scanner \
+          -Dsonar.projectKey=carrera-example-node \
+          -Dsonar.sources=. \
+          -Dsonar.sourceEncoding=US-ASCII \
+          -Dsonar.exclusions=vendor/bundle/** \
+          -Dsonar.typescript.lcov.reportPaths=./coverage/lcov-report \
+          -Dsonar.genericcoverage.unitTestReportPaths=./test-results/jestSonar/test-results.xml \
+          -Dsonar.host.url=http://34.73.164.186:9000 \
+          -Dsonar.projectVersion=${CIRCLE_BRANCH} \
+          -Dsonar.login=${SONARQUBE_TOKEN} -Xmx2048m
+
       - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: coverage
           prefix: coverage
