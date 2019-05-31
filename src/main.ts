@@ -1,6 +1,11 @@
 /**
  * Some predefined delays (in milliseconds).
  */
+
+/**
+* Mock Task: Ignore Optional Cache Dirs 
+*/
+
 export enum Delays {
     Short = 500,
     Medium = 2000,
