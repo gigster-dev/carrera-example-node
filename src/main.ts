@@ -3,7 +3,7 @@
  */
 
 /**
-* Mock Task: Ignore Optional Cache Directory JIRA CG 15 
+* Mock Task: Ignore Optional Cache Directory in JIRA CG 15 
 */
 
 export enum Delays {
