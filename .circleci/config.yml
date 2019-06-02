@@ -41,7 +41,7 @@ jobs: # a collection of steps
       - run:
           name: Run Sonarqube scanner
           environment:
-            SONARQUBE_OUTPUT_DIR: "test-results/sonarqube"
+            SONARQUBE_OUTPUT_DIR: "/home/circleci/carrera-example-node/test-results/sonarqube"
           command: |
             mkdir ${SONARQUBE_OUTPUT_DIR}
             export SONAR_SCANNER_OPTS="-Xmx2048m"
