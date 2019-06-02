@@ -40,10 +40,7 @@ jobs: # a collection of steps
 
       - run:
           name: Run Sonarqube scanner
-          environment:
-            SONARQUBE_OUTPUT_DIR: "/home/circleci/carrera-example-node/test-results/sonarqube"
           command: |
-            mkdir ${SONARQUBE_OUTPUT_DIR}
             export SONAR_SCANNER_OPTS="-Xmx2048m"
             eval ./sonar-scanner-3.2.0.1227-linux/bin/sonar-scanner -X \
               -Dsonar.projectKey=carrera-example-node \
@@ -55,7 +52,7 @@ jobs: # a collection of steps
               -Dsonar.testExecutionReportPaths=./test-results/jestSonar/test-results.xml \
               -Dsonar.host.url=http://34.73.164.186:9000 \
               -Dsonar.projectVersion=${CIRCLE_BRANCH} \
-              -Dsonar.login=${SONARQUBE_TOKEN} | sed '/ANALYSIS/w ${SONARQUBE_OUTPUT_DIR}/result.log'
+              -Dsonar.login=${SONARQUBE_TOKEN} | sed '/ANALYSIS/w ~/carrera-example-node/test-results/sonarqube.log'
 
       - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: coverage
