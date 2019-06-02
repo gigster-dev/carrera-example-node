@@ -52,7 +52,7 @@ jobs: # a collection of steps
               -Dsonar.testExecutionReportPaths=./test-results/jestSonar/test-results.xml \
               -Dsonar.host.url=http://34.73.164.186:9000 \
               -Dsonar.projectVersion=${CIRCLE_BRANCH} \
-              -Dsonar.login=${SONARQUBE_TOKEN}
+              -Dsonar.login=${SONARQUBE_TOKEN} | sed '/ANALYSIS/w ./test-results/jestSonar/sonarqube-output.log'
 
       - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: coverage
