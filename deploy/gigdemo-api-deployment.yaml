@@ -1,0 +1,28 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gigdemo-api
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 2
+  revisionHistoryLimit: 10
+  minReadySeconds: 0
+  template:
+    metadata:
+      labels:
+        run: gigdemo-api
+    spec:
+      containers:
+        - name: gigdemo-api
+          image: __IMAGE__
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: gigdemo-api-secrets
+            - configMapRef:
+                name: gigdemo-api-configmap
+          ports:
+            - containerPort: 3000

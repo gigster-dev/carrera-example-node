@@ -1,65 +1,181 @@
-# Use the latest 2.1 version of CircleCI pipeline processing engine, see https://circleci.com/docs/2.0/configuration-reference/
 version: 2.1
+orbs:
+  aws-cli: circleci/aws-cli@0.1.8
+  kubectl: circleci/kubernetes@0.2.0
+  jq: circleci/jq@1.7.0
 
-jobs: # a collection of steps
-  build: # runs not using Workflows must have a `build` job as entry point
-    working_directory: ~/carrera-example-node # directory where steps will run
-    docker: # run the steps with Docker
-      - image: circleci/node # ...with this image as the primary container; this is where all `steps` will run
-    steps: # a collection of executable commands
-      - checkout # special step to check out source code to working directory
-      - run:
-          name: update-npm
-          command: 'sudo npm install -g npm@latest snyk'
-      - restore_cache: # special step to restore the dependency cache
-          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: install-node-modules
-          # Install using npm ci to reproduce package-lock.json exactly.
-          command: npm ci
-      - save_cache: # special step to save the dependency cache
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - ./node_modules
-      - run:
-          name: Run jest tests
-          command: npm run citest
-          environment:
-            JEST_JUNIT_OUTPUT: "test-results/jest/results.xml"
+uat_environment_vars: &uat_environment_vars
+  environment:
+    - ENVIRONMENT: uat
+    - CLUSTER_NAME: gde-core
+    - CLUSTER_ZONE: us-east1-c
+    - CLUSTER_PROJECT: gde-core
 
-      - run:
-          name: Run snyk tests
-          command: npm run cisnyk
+dev_environment_vars: &dev_environment_vars
+  environment:
+    - ENVIRONMENT: dev
+    - CLUSTER_NAME: gde-core
+    - CLUSTER_ZONE: us-east1-c
+    - CLUSTER_PROJECT: gde-core
 
-      - run:
-          name: Install Sonarqube scanner
-          command: |
-            wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip
-            unzip sonar-scanner-cli-3.2.0.1227-linux.zip
+gcp_runtime: &gcp_runtime
+  docker:
+    - image: google/cloud-sdk
 
-      - run:
-          name: Run Sonarqube scanner
-          command: |
-            export SONAR_SCANNER_OPTS="-Xmx2048m"
-            eval ./sonar-scanner-3.2.0.1227-linux/bin/sonar-scanner -X \
-              -Dsonar.projectKey=carrera-example-node \
-              -Dsonar.sources=./src \
-              -Dsonar.tests=./__tests__ \
-              -Dsonar.sourceEncoding=UTF-8 \
-              -Dsonar.exclusions=vendor/bundle/** \
-              -Dsonar.typescript.lcov.reportPaths=./coverage/lcov.info \
-              -Dsonar.testExecutionReportPaths=./test-results/jestSonar/test-results.xml \
-              -Dsonar.host.url=http://34.73.164.186:9000 \
-              -Dsonar.projectVersion=${CIRCLE_BRANCH} \
-              -Dsonar.login=${SONARQUBE_TOKEN} | sed '/ANALYSIS/w ./test-results/jestSonar/sonarqube-output.log'
+aws_cluster_setup: &aws_cluster_setup
+  run:
+    name: Set up credentials for CircleCI's service account
+    command: |
+      echo $K8S_CLUSTER_CA_BASE64 | base64 -d > ca.cert
+      K8S_USER="${K8S_CLUSTER_URL}-circle-sa"
+      kubectl config set-cluster $K8S_CLUSTER_URL --certificate-authority=ca.cert --server="https://api.${K8S_CLUSTER_URL}" --embed-certs=true
+      kubectl config set-context $K8S_CLUSTER_URL --cluster $K8S_CLUSTER_URL --user $K8S_USER
+      kubectl config set-credentials $K8S_USER --token $K8S_TOKEN
+      kubectl config use-context $K8S_CLUSTER_URL
 
-      - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
-          path: coverage
-          prefix: coverage
-      - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
-          path: test-results
-      - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
-          path: test-results
-          prefix: test-results
-      # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
+aws_login: &aws_login
+  run:
+    name: Set up credentials for CircleCI's service account
+    command: |
+      LOGIN_COMMAND=$(aws ecr get-login --no-include-email --region $AWS_REGION)
+      $LOGIN_COMMAND
+
+gcp_setup_credentials: &gcp_setup_credentials
+  run:
+    name: Set up credentials for CircleCI's service account
+    command: |
+      echo ${<< parameters.credentials_content_env >>} > ${HOME}/gcp-key.json
+      gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
+      gcloud container clusters get-credentials $CLUSTER_NAME --zone $CLUSTER_ZONE --project $CLUSTER_PROJECT
+
+build_steps: &build_steps
+  steps:
+    - checkout
+    - setup_remote_docker
+    - run:
+        name: Build
+        command: bash ./deploy/deploy-all.sh ${ENVIRONMENT} . build
+    - persist_to_workspace:
+        root: /tmp
+        paths:
+          - gig
+
+test_steps: &test_steps
+  steps:
+    - checkout
+    - setup_remote_docker
+    - attach_workspace:
+        at: /tmp
+    - run:
+        name: Run Tests
+        command: bash ./deploy/deploy-all.sh ${ENVIRONMENT} . test
+
+push_steps_gcp: &push_steps_gcp
+  parameters:
+    credentials_content_env:
+      type: string
+  steps:
+    - checkout
+    - setup_remote_docker
+    - *gcp_setup_credentials
+    - attach_workspace:
+        at: /tmp
+    - run:
+        name: Push
+        command: bash ./deploy/deploy-all.sh ${ENVIRONMENT} . push
+
+deploy_steps_gcp: &deploy_steps_gcp
+  parameters:
+    credentials_content_env:
+      type: string
+  steps:
+    - checkout
+    - setup_remote_docker
+    - jq/install
+    - *gcp_setup_credentials
+    - attach_workspace:
+        at: /tmp
+    - run:
+        name: Deploy
+        command: bash ./deploy/deploy-all.sh ${ENVIRONMENT} . deploy
+
+jobs:
+  build_uat:
+    <<: *gcp_runtime
+    <<: *uat_environment_vars
+    <<: *build_steps
+
+  test_uat:
+    <<: *gcp_runtime
+    <<: *uat_environment_vars
+    <<: *test_steps
+
+  push_uat:
+    <<: *gcp_runtime
+    <<: *uat_environment_vars
+    <<: *push_steps_gcp
+
+  deploy_uat:
+    <<: *gcp_runtime
+    <<: *uat_environment_vars
+    <<: *deploy_steps_gcp
+
+  build_dev:
+    <<: *gcp_runtime
+    <<: *dev_environment_vars
+    <<: *build_steps
+
+  test_dev:
+    <<: *gcp_runtime
+    <<: *dev_environment_vars
+    <<: *test_steps
+
+  push_dev:
+    <<: *gcp_runtime
+    <<: *dev_environment_vars
+    <<: *push_steps_gcp
+
+  deploy_dev:
+    <<: *gcp_runtime
+    <<: *dev_environment_vars
+    <<: *deploy_steps_gcp
+
+workflows:
+  version: 2
+
+  dev_pipeline:
+    jobs:
+    - build_dev:
+        filters:
+          branches:
+            only: /feature\/.*|hotfix\/.*|fix\/.*|^develop$/
+    - test_dev:
+        requires:
+          - build_dev
+    - push_dev:
+        credentials_content_env: GOOGLE_APPLICATION_CREDENTIALS_CONTENT_DEV
+        requires:
+          - test_dev
+        filters:
+          branches:
+            only: develop
+    - deploy_dev:
+        credentials_content_env: GOOGLE_APPLICATION_CREDENTIALS_CONTENT_DEV
+        requires:
+          - push_dev
+
+  uat_pipeline:
+    jobs:
+    - build_uat:
+        filters:
+          branches:
+            only: master
+    - push_uat:
+        credentials_content_env: GOOGLE_APPLICATION_CREDENTIALS_CONTENT_UAT
+        requires:
+          - build_uat
+    - deploy_uat:
+        credentials_content_env: GOOGLE_APPLICATION_CREDENTIALS_CONTENT_UAT
+        requires:
+          - push_uat
+
