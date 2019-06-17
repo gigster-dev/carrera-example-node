@@ -41,6 +41,19 @@ phases:
         - Deployment_State
     - type: K8S_DEPLOYMENT_ROLLING
       name: Rollout Deployment
+    - type: JIRA_CREATE_UPDATE
+      name: Jira_2
+      properties:
+        issueType: Task
+        summary: Finished
+        issueId: ${JiraID.issueId}
+        jiraAction: UPDATE_TICKET
+        customFields: null
+        jiraConnectorId: 3zp0opVySZ2Z-jQPCZsfpw
+        project: CG
+        labels:
+        - ''
+        status: Done
     stepsInParallel: false
   - type: K8S_PHASE_STEP
     name: Verify
