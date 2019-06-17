@@ -57,6 +57,22 @@ phases:
     stepsInParallel: false
   - type: K8S_PHASE_STEP
     name: Verify
+    steps:
+    - type: HTTP
+      name: HTTP
+      properties:
+        sweepingOutputScope: null
+        responseProcessingExpressions: ''
+        method: GET
+        publishAsVar: false
+        header: ''
+        assertion: 'false'
+        timeoutMillis: 10000
+        body: ''
+        executeWithPreviousSteps: false
+        url: www.google.com
+        sweepingOutputName: null
+        templateVariables: ''
     stepsInParallel: false
   - type: K8S_PHASE_STEP
     name: Wrap Up
