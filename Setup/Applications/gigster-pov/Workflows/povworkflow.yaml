@@ -45,7 +45,7 @@ phases:
       name: Jira_2
       properties:
         issueType: Task
-        summary: Finished
+        summary: Success
         issueId: ${JiraID.issueId}
         jiraAction: UPDATE_TICKET
         customFields: null
