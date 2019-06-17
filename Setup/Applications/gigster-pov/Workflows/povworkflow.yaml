@@ -27,6 +27,20 @@ phases:
     steps:
     - type: K8S_DEPLOYMENT_ROLLING
       name: Rollout Deployment
+    - type: JIRA_CREATE_UPDATE
+      name: Jira
+      properties:
+        issueType: Task
+        summary: 'Harness Deployment '
+        sweepingOutputScope: WORKFLOW
+        jiraAction: CREATE_TICKET
+        publishAsVar: true
+        customFields: null
+        jiraConnectorId: 3zp0opVySZ2Z-jQPCZsfpw
+        project: CG
+        sweepingOutputName: JiraID
+        labels:
+        - Deployment_State
     stepsInParallel: false
   - type: K8S_PHASE_STEP
     name: Verify
