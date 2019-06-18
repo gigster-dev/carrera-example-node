@@ -1,0 +1,9 @@
+harnessApiVersion: '1.0'
+type: DIRECT_KUBERNETES
+computeProviderName: kubernetes_cluster
+computeProviderType: KUBERNETES_CLUSTER
+deploymentType: KUBERNETES
+infraMappingType: DIRECT_KUBERNETES
+namespace: harnesspov
+releaseName: release-${infra.kubernetes.infraId}
+serviceName: pov-docker-golang
