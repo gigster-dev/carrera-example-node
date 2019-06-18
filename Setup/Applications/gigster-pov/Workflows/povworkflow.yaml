@@ -62,7 +62,7 @@ phases:
     name: Wrap Up
     stepsInParallel: false
   provisionNodes: false
-  serviceName: pov-dockerimage
+  serviceName: pov-docker-nginx
   statefulSet: false
 rollbackPhases:
 - type: KUBERNETES
@@ -85,6 +85,6 @@ rollbackPhases:
     phaseStepNameForRollback: Wrap Up
     stepsInParallel: false
   provisionNodes: false
-  serviceName: pov-dockerimage
+  serviceName: pov-docker-nginx
   statefulSet: false
 templatized: false
