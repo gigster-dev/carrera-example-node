@@ -64,6 +64,24 @@ phases:
   provisionNodes: false
   serviceName: pov-docker-nginx
   statefulSet: false
+  templateExpressions:
+  - expression: ${Service}
+    fieldName: serviceId
+    metadata:
+    - name: artifactType
+      value: DOCKER
+    - name: relatedField
+      value: ${ServiceInfra_Kubernetes}
+    - name: entityType
+      value: SERVICE
+  - expression: ${ServiceInfra_Kubernetes}
+    fieldName: infraMappingId
+    metadata:
+    - name: artifactType
+      value: DOCKER
+    - name: relatedField
+    - name: entityType
+      value: INFRASTRUCTURE_MAPPING
 rollbackPhases:
 - type: KUBERNETES
   computeProviderName: kubernetes_cluster
@@ -87,4 +105,64 @@ rollbackPhases:
   provisionNodes: false
   serviceName: pov-docker-nginx
   statefulSet: false
-templatized: false
+  templateExpressions:
+  - expression: ${Service}
+    fieldName: serviceId
+    metadata:
+    - name: artifactType
+      value: DOCKER
+    - name: relatedField
+      value: ${ServiceInfra_Kubernetes}
+    - name: entityType
+      value: SERVICE
+  - expression: ${ServiceInfra_Kubernetes}
+    fieldName: infraMappingId
+    metadata:
+    - name: artifactType
+      value: DOCKER
+    - name: relatedField
+    - name: entityType
+      value: INFRASTRUCTURE_MAPPING
+templateExpressions:
+- expression: ${Environment}
+  fieldName: envId
+  metadata:
+  - name: artifactType
+    value: DOCKER
+  - name: relatedField
+  - name: entityType
+    value: ENVIRONMENT
+- expression: ${Service}
+  fieldName: serviceId
+  metadata:
+  - name: artifactType
+    value: DOCKER
+  - name: relatedField
+    value: ${ServiceInfra_Kubernetes}
+  - name: entityType
+    value: SERVICE
+- expression: ${ServiceInfra_Kubernetes}
+  fieldName: infraMappingId
+  metadata:
+  - name: artifactType
+    value: DOCKER
+  - name: relatedField
+  - name: entityType
+    value: INFRASTRUCTURE_MAPPING
+templatized: true
+userVariables:
+- type: ENTITY
+  description: Variable for Environment entity
+  fixed: false
+  mandatory: true
+  name: Environment
+- type: ENTITY
+  description: Variable for Service entity in Rollback Rolling
+  fixed: false
+  mandatory: true
+  name: Service
+- type: ENTITY
+  description: Variable for Service Infra-structure entity in Rollback Rolling
+  fixed: false
+  mandatory: true
+  name: ServiceInfra_Kubernetes
