@@ -1,4 +1,4 @@
 harnessApiVersion: '1.0'
 type: DOCKER
-imageName: library/python
+imageName: library/alpine
 serverName: Harness Docker Hub
