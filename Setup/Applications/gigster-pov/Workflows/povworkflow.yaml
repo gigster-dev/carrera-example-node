@@ -42,7 +42,7 @@ phases:
     - type: K8S_DEPLOYMENT_ROLLING
       name: Rollout Deployment
     - type: JIRA_CREATE_UPDATE
-      name: Jira_2
+      name: Jira Update
       properties:
         issueType: Task
         summary: Finished Deployment
