@@ -45,12 +45,13 @@ phases:
       name: Jira_2
       properties:
         issueType: Task
-        summary: Success
+        summary: Finished Deployment
         issueId: ${JiraID.issueId}
         jiraAction: UPDATE_TICKET
         customFields: null
         jiraConnectorId: 3zp0opVySZ2Z-jQPCZsfpw
         project: CG
+        comment: Finished deploying ${artifact.displayName}
         labels:
         - ''
         status: Done
