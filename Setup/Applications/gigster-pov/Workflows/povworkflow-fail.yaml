@@ -19,7 +19,7 @@ phases:
 - type: KUBERNETES
   computeProviderName: kubernetes_cluster
   daemonSet: false
-  infraMappingName: Kubernetes Cluster_ kubernetes_cluster_DIRECT_Kubernetes_harnesspov
+  infraMappingName: nginx
   name: Rolling
   phaseSteps:
   - type: K8S_PHASE_STEP
@@ -84,7 +84,7 @@ rollbackPhases:
 - type: KUBERNETES
   computeProviderName: kubernetes_cluster
   daemonSet: false
-  infraMappingName: Kubernetes Cluster_ kubernetes_cluster_DIRECT_Kubernetes_harnesspov
+  infraMappingName: nginx
   name: Rollback Rolling
   phaseNameForRollback: Rolling
   phaseSteps:
