@@ -28,11 +28,11 @@ phases:
     - type: JIRA_CREATE_UPDATE
       name: Jira
       properties:
-        issueType: Task
         summary: 'Harness Deployment '
+        issueType: Task
         sweepingOutputScope: WORKFLOW
-        jiraAction: CREATE_TICKET
         publishAsVar: true
+        jiraAction: CREATE_TICKET
         customFields: null
         jiraConnectorId: 3zp0opVySZ2Z-jQPCZsfpw
         project: CG
