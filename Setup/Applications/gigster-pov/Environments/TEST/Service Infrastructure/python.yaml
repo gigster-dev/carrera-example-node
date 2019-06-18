@@ -6,4 +6,4 @@ deploymentType: KUBERNETES
 infraMappingType: DIRECT_KUBERNETES
 namespace: harnesspov
 releaseName: release-${infra.kubernetes.infraId}
-serviceName: pov-docker-python
+serviceName: pov-docker-alpine
