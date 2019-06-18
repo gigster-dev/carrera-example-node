@@ -26,16 +26,17 @@ phases:
     name: Deploy
     steps:
     - type: JIRA_CREATE_UPDATE
-      name: Jira
+      name: Jira Create
       properties:
-        summary: 'Harness Deployment '
         issueType: Task
+        summary: 'Harness Deployment '
         sweepingOutputScope: WORKFLOW
-        publishAsVar: true
         jiraAction: CREATE_TICKET
+        publishAsVar: true
         customFields: null
         jiraConnectorId: 3zp0opVySZ2Z-jQPCZsfpw
         project: CG
+        description: Deploying ${artifact.displayName}
         sweepingOutputName: JiraID
         labels:
         - Deployment_State
