@@ -23,3 +23,7 @@ pipelineStages:
     - 2sq-5KI4Sp6H_nIBJKUQgw
     timeoutMillis: 3600000
     approvalStateType: USER_GROUP
+- type: ENV_STATE
+  name: POV-WF-FAIL
+  parallel: false
+  workflowName: povworkflow-fail
