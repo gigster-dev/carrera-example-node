@@ -15,3 +15,11 @@ pipelineStages:
   - entityType: SERVICE
     name: Service
     value: pov-docker-nginx
+- type: APPROVAL
+  name: Approval 1
+  parallel: false
+  properties:
+    userGroups:
+    - 2sq-5KI4Sp6H_nIBJKUQgw
+    timeoutMillis: 3600000
+    approvalStateType: USER_GROUP
