@@ -35,7 +35,7 @@ jobs: # a collection of steps
 
       - run:
           name: Run snyk test and report
-          command:snyk test --json | snyk-to-html -o results.html
+          command: snyk test --json | snyk-to-html -o results.html
           
           
       - run:
