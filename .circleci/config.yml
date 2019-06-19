@@ -11,6 +11,11 @@ jobs: # a collection of steps
       - run:
           name: update-npm
           command: 'sudo npm install -g npm@latest snyk'
+          
+      - run:
+          name: install-snyk-html-report
+          command: 'sudo npm install snyk-to-html -g'          
+               
       - restore_cache: # special step to restore the dependency cache
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
           key: dependency-cache-{{ checksum "package.json" }}
@@ -29,9 +34,10 @@ jobs: # a collection of steps
             JEST_JUNIT_OUTPUT: "test-results/jest/results.xml"
 
       - run:
-          name: Run snyk tests
-          command: npm run cisnyk
-
+          name: Run snyk test and report
+          command:snyk test --json | snyk-to-html -o results.html
+          
+          
       - run:
           name: Install Sonarqube scanner
           command: |
@@ -57,9 +63,14 @@ jobs: # a collection of steps
       - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: coverage
           prefix: coverage
+          
       - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
           path: test-results
       - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: test-results
           prefix: test-results
       # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
+      
+      - store_artifacts:
+          path: results.html
+          destination: results.html      
