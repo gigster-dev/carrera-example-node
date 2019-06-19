@@ -33,7 +33,7 @@ jobs: # a collection of steps
           environment:
             JEST_JUNIT_OUTPUT: "test-results/jest/results.xml"
 
-       - run: # run snyk monitor
+      - run: # run snyk monitor
           name: snyk monitor
           command: snyk monitor
           
