@@ -8,13 +8,13 @@ pipelineStages:
   workflowVariables:
   - entityType: INFRASTRUCTURE_MAPPING
     name: ServiceInfra_Kubernetes
-    value: docker
+    value: nginx
   - entityType: ENVIRONMENT
     name: Environment
     value: TEST
   - entityType: SERVICE
     name: Service
-    value: pov-docker-docker
+    value: pov-docker-nginx
 - type: APPROVAL
   name: Approval 1
   parallel: false
