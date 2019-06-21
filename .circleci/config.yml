@@ -1,5 +1,7 @@
 # Use the latest 2.1 version of CircleCI pipeline processing engine, see https://circleci.com/docs/2.0/configuration-reference/
 version: 2.1
+orbs:
+  webhook: eddiewebb/webhook@0.0.4
 
 jobs: # a collection of steps
   build: # runs not using Workflows must have a `build` job as entry point
@@ -8,14 +10,18 @@ jobs: # a collection of steps
       - image: circleci/node # ...with this image as the primary container; this is where all `steps` will run
     steps: # a collection of executable commands
       - checkout # special step to check out source code to working directory
+
+      - webhook/notify: # send webhook to sumo logic
+          endpoint: 'https://endpoint4.collection.us2.sumologic.com/receiver/v1/http/ZaVnC4dhaV0goor9h_Hz4aQEkjoQDFVsIFxPTLP-hSHKw_feSXS1BTjZrq2c65UYgBhdRpGaAKyM5NOLWGPU5yyAe3jr2gOaQjPhBxhumeicI0yHrbNFqg=='
+
       - run:
           name: update-npm
           command: 'sudo npm install -g npm@latest snyk'
-          
+
       - run:
           name: install-snyk-html-report
-          command: 'sudo npm install snyk-to-html -g'          
-               
+          command: 'sudo npm install snyk-to-html -g'
+
       - restore_cache: # special step to restore the dependency cache
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
           key: dependency-cache-{{ checksum "package.json" }}
@@ -36,12 +42,11 @@ jobs: # a collection of steps
       - run: # run snyk monitor
           name: snyk monitor
           command: snyk monitor
-          
+
       - run:
           name: Run snyk test and report
           command: snyk test --json | snyk-to-html -o results.html
-          
-          
+
       - run:
           name: Install Sonarqube scanner
           command: |
@@ -67,14 +72,14 @@ jobs: # a collection of steps
       - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: coverage
           prefix: coverage
-          
+
       - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
           path: test-results
       - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: test-results
           prefix: test-results
       # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
-      
+
       - store_artifacts:
           path: results.html
-          destination: results.html      
+          destination: results.html
