@@ -11,7 +11,7 @@ jobs: # a collection of steps
     steps: # a collection of executable commands
       - checkout # special step to check out source code to working directory
 
-      - webhook/notify: # send webhook to sumo logic
+      - webhook/notify: # send webhook to sumo logic via (3rd party orb will need to be allowed at org level)
           endpoint: 'https://endpoint4.collection.us2.sumologic.com/receiver/v1/http/ZaVnC4dhaV0goor9h_Hz4aQEkjoQDFVsIFxPTLP-hSHKw_feSXS1BTjZrq2c65UYgBhdRpGaAKyM5NOLWGPU5yyAe3jr2gOaQjPhBxhumeicI0yHrbNFqg=='
 
       - run:
