@@ -5,7 +5,7 @@
 * SL test
 */
 /**
-* CG-75  Mock Task: Ignore Optional Cache Directory in JIRA CG 15 
+* CG-75  and CG-74 Mock Task: Ignore Optional Cache Directory in JIRA CG 15 
 */
 
 /**
