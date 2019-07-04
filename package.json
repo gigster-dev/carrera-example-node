@@ -1,47 +1,51 @@
 {
-    "name": "node-typescript-boilerplate",
-    "version": "0.0.0",
-    "description": "Minimalistic boilerplate to quick-start Node.js development in TypeScript.",
-    "engines": {
-        "node": ">= 10.13"
-    },
-    "devDependencies": {
-        "@types/jest": "^24.0.0",
-        "@types/node": "^10.14.0",
-        "jest": "~24.8.0",
-        "jest-junit": "^6.4.0",
-        "jest-sonar-reporter": "^2.0.0",
-        "prettier": "~1.17.0",
-        "rimraf": "^2.6.3",
-        "ts-jest": "^24.0.0",
-        "tslint": "~5.16.0",
-        "tslint-config-prettier": "1.18.0",
-        "tslint-microsoft-contrib": "~6.1.0",
-        "tsutils": "~3.10.0",
-        "typescript": "~3.4.0"
-    },
-    "scripts": {
-        "clean": "rimraf coverage build tmp",
-        "build": "tsc -p tsconfig.release.json",
-        "build:watch": "tsc -w -p tsconfig.release.json",
-        "lint": "tslint -t stylish --project \"tsconfig.json\"",
-        "test": "jest --coverage --reporters=default",
-        "citest": "jest --ci --coverage --runInBand --reporters=default --reporters=jest-junit",
-        "cisnyk": "bash -c \"mkdir -p test-results/snyk && snyk test --json --dev > test-results/snyk/results.json \" && npm run cisnyk:success || npm run cisnyk:failure",
-        "cisnyk:success": "bash .circleci/snyk_success.sh",
-        "cisnyk:failure": "bash .circleci/snyk_failure.sh && false",
-        "test:watch": "jest --watch"
-    },
-    "author": "Jakub Synowiec <github@jakubsynowiec.info>",
-    "license": "Apache-2.0",
-    "dependencies": {
-        "@graphql-codegen/cli": "^1.0.0",
-        "@snyk/nodejs-runtime-agent": "^1.45.1",
-        "tslib": "~1.9.3"
-    },
-    "jestSonar": {
-        "reportPath": "test-results/jestSonar",
-        "reportFile": "test-results.xml",
-        "indent": 4
-    }
+  "name": "node-typescript-boilerplate",
+  "version": "0.0.0",
+  "description": "Minimalistic boilerplate to quick-start Node.js development in TypeScript.",
+  "engines": {
+    "node": ">= 10.13"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.0",
+    "@types/node": "^10.14.0",
+    "jest": "~24.8.0",
+    "jest-junit": "^6.4.0",
+    "jest-sonar-reporter": "^2.0.0",
+    "prettier": "~1.17.0",
+    "rimraf": "^2.6.3",
+    "ts-jest": "^24.0.0",
+    "tslint": "~5.16.0",
+    "tslint-config-prettier": "1.18.0",
+    "tslint-microsoft-contrib": "~6.1.0",
+    "tsutils": "~3.10.0",
+    "typescript": "~3.4.0"
+  },
+  "scripts": {
+    "clean": "rimraf coverage build tmp",
+    "build": "tsc -p tsconfig.release.json",
+    "build:watch": "tsc -w -p tsconfig.release.json",
+    "lint": "tslint -t stylish --project \"tsconfig.json\"",
+    "test": "jest --coverage --reporters=default",
+    "citest": "jest --ci --coverage --runInBand --reporters=default --reporters=jest-junit",
+    "cisnyk": "bash -c \"mkdir -p test-results/snyk && snyk test --json --dev > test-results/snyk/results.json \" && npm run cisnyk:success || npm run cisnyk:failure",
+    "cisnyk:success": "bash .circleci/snyk_success.sh",
+    "cisnyk:failure": "bash .circleci/snyk_failure.sh && false",
+    "test:watch": "jest --watch",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
+  },
+  "author": "Jakub Synowiec <github@jakubsynowiec.info>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@graphql-codegen/cli": "^1.0.0",
+    "@snyk/nodejs-runtime-agent": "^1.45.1",
+    "tslib": "~1.9.3",
+    "snyk": "^1.189.0"
+  },
+  "jestSonar": {
+    "reportPath": "test-results/jestSonar",
+    "reportFile": "test-results.xml",
+    "indent": 4
+  },
+  "snyk": true
 }
