@@ -1,0 +1,5 @@
+commonLabels:
+  app: carrera-api
+resources:
+- deployment.yaml
+- service.yaml
