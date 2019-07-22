@@ -30,7 +30,7 @@ docker build -f ../Dockerfile -t $DOCKER_IMAGE_TAG ..
 
 # push
 echo "pushing $DOCKER_IMAGE_TAG"
-docker push $DOCKER_IMAGE_TAG
+gcloud docker --verbosity=error -- push $DOCKER_IMAGE_TAG
 
 # compile manifests
 #kustomize edit set image carrera-api:$(git log -n 1 --pretty=format:"%H")
