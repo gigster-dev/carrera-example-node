@@ -95,7 +95,7 @@ jobs: # a collection of steps
       - checkout # special step to check out source code to working directory
 
       - run: # download kustomize
-          name: download kustomize
+          name: download and install kustomize
           command: |
             opsys=linux  # or darwin, or windows
             curl -s https://api.github.com/repos/kubernetes-sigs/kustomize/releases/latest |\
@@ -105,6 +105,9 @@ jobs: # a collection of steps
             xargs curl -O -L
             mv kustomize_*_${opsys}_amd64 kustomize
             chmod u+x kustomize
+
+      - gcp-cli/install_and_initialize_cli
+      - kubectl/install
 
       - run:
           name: set GOOGLE_APPLICATION_CREDENTIALS in environment
