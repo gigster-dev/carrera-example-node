@@ -6,4 +6,4 @@ namePrefix: carrera-
 resources:
 - deployment.yaml
 - service.yaml
-- # ingress.yaml
+#- ingress.yaml
