@@ -105,8 +105,8 @@ jobs: # a collection of steps
             grep $opsys |\
             cut -d '"' -f 4 |\
             xargs curl -O -L
-            mv kustomize_*_${opsys}_amd64 kustomize
-            chmod u+x kustomize
+            mv kustomize_*_${opsys}_amd64 /usr/local/bin/kustomize
+            chmod u+x /usr/local/bin/kustomize
 
       - kubectl/install
 
