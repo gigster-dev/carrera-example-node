@@ -124,4 +124,4 @@ workflows:
     - deploy:
         filters:
           branches:
-            only: /^CI-92/
+            only: /^[ci-92]/*/
