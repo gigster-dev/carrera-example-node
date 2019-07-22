@@ -6,7 +6,4 @@ namePrefix: carrera-
 resources:
 - deployment.yaml
 - service.yaml
-images:
-- name: carrera-api
-  newName: gcr.io/devopspatterns/api
-  newTag: 3f2eb9ddd18a6ab92d6518e0479fecd33b8043df.1563823861
+- # ingress.yaml
