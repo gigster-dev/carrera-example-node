@@ -3,8 +3,6 @@
 [![APLv2][license-badge]][LICENSE]
 [![Build Status][travis-badge]][travis-ci]
 
-[![Donate][donate-badge]][donate]
-
 # node-typescript-boilerplate
 
 Minimalistic boilerplate to jump-start a [Node.js][nodejs] project in [TypeScript][typescript] [3.4][typescript-34].
@@ -66,9 +64,6 @@ Licensed under the APLv2. See the [LICENSE](https://github.com/jsynowiec/node-ty
 [typescript-34]: https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-4.html
 [license-badge]: https://img.shields.io/badge/license-APLv2-blue.svg
 [license]: https://github.com/jsynowiec/node-typescript-boilerplate/blob/master/LICENSE
-
-[donate-badge]: https://img.shields.io/badge/☕-buy%20me%20a%20coffee-46b798.svg
-[donate]: https://paypal.me/jaqb/5eur
 
 [jest]: https://facebook.github.io/jest/
 [tslint]: https://palantir.github.io/tslint/
