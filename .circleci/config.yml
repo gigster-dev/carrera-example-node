@@ -106,7 +106,7 @@ jobs: # a collection of steps
             mv kustomize_*_${opsys}_amd64 kustomize
             chmod u+x kustomize
 
-      - gcp-cli/install_and_initialize_cli
+      - gcp-cli/install
       - kubectl/install
 
       - run:
