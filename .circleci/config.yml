@@ -2,6 +2,8 @@
 version: 2.1
 orbs:
   webhook: eddiewebb/webhook@0.0.4
+  kubectl: circleci/kubernetes@0.3.0
+  gcp-gke: circleci/gcp-gke@0.2.0
 
 jobs: # a collection of steps
   build: # runs not using Workflows must have a `build` job as entry point
@@ -84,3 +86,42 @@ jobs: # a collection of steps
       - store_artifacts:
           path: results.html
           destination: results.html
+
+  deploy: # deploy
+    working_directory: ~/carrera-example-node # directory where steps will run
+    docker: # run the steps with Docker
+      - image: circleci/node # ...with this image as the primary container; this is where all `steps` will run
+    steps: # a collection of executable commands
+      - checkout # special step to check out source code to working directory
+
+      - run: # download kustomize
+          name: download kustomize
+          command: |
+            opsys=linux  # or darwin, or windows
+            curl -s https://api.github.com/repos/kubernetes-sigs/kustomize/releases/latest |\
+            grep browser_download |\
+            grep $opsys |\
+            cut -d '"' -f 4 |\
+            xargs curl -O -L
+            mv kustomize_*_${opsys}_amd64 kustomize
+            chmod u+x kustomize
+
+      - run: #run deploy.sh to devops cluster
+          name: deploy to cluster
+          command: cd k8s/ && sh deploy.sh
+
+workflows:
+  version: 2
+  test_pipeline:
+    jobs:
+    - build:
+        filters:
+          branches:
+            only: /feature\/.*|hotfix\/.*|fix\/.*|^develop$/
+
+  deploy_pipeline:
+    jobs:
+    - deploy:
+        filters:
+          branches:
+            only: /^master$/
