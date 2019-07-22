@@ -26,7 +26,7 @@ gcloud container clusters get-credentials $CLUSTER_NAME --zone $GCP_ZONE --proje
 # docker build and tag
 DOCKER_IMAGE_TAG="${DOCKER_REPOSITORY}/${DOCKER_SERVICE_TAG}"
 #docker tag node:9.8-alpine $DOCKER_IMAGE_TAG
-docker build -f ../Dockerfile -t $DOCKER_IMAGE_TAG .
+docker build -f ../Dockerfile -t $DOCKER_IMAGE_TAG ..
 
 # push
 echo "pushing $DOCKER_IMAGE_TAG"
