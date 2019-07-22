@@ -8,5 +8,5 @@ resources:
 - service.yaml
 images:
 - name: carrera-api
-  newName: gcr.io/devopspatterns/carrera-api
-  newTag: 62aa76d.1563526504
+  newName: gcr.io/devopspatterns/api
+  newTag: 3f2eb9ddd18a6ab92d6518e0479fecd33b8043df.1563823861
