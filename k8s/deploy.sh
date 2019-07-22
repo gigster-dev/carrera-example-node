@@ -21,6 +21,7 @@ DOCKER_REPOSITORY="gcr.io/${GCP_PROJECT_ID}"
 TAG="${GIT_COMMIT_SHA}.${DEPLOY_SCRIPT_TIMESTAMP}"
 DOCKER_SERVICE_TAG="${SERVICE_NAME}:${TAG}"
 DEPLOYMENT_ANNOTATION="Git commit ${GIT_COMMIT_SHA_SHORT} deployed at ${DEPLOY_SCRIPT_TIMESTAMP_PRETTY} - ${DOCKER_IMAGE_TAG}"
+DEPLOYMENT_NAME="${WORKSPACE_NAME}-${SERVICE_NAME}"
 
 # get cluster creds from gcloud
 gcloud container clusters get-credentials $CLUSTER_NAME --zone $GCP_ZONE --project $GCP_PROJECT_ID
@@ -40,4 +41,10 @@ cd base && kustomize edit set image carrera-api=$DOCKER_IMAGE_TAG && cd ..
 
 # build and apply manifests
 kustomize build base | kubectl apply -f -
+
+kubectl annotate deploy $DEPLOYMENT_NAME kubernetes.io/change-cause="$DEPLOYMENT_ANNOTATION" --overwrite
+
+# do rolling update
+kubectl rollout status deployments $DEPLOYMENT_NAME
+
 
