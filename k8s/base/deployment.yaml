@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: carrera-api
+  name: api
 spec:
   replicas: 1
   strategy:
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: carrera-api
-          image: __IMAGE__
+          image: carrera-api
           imagePullPolicy: Always
           envFrom:
             - secretRef:
