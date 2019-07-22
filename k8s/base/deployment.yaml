@@ -19,10 +19,10 @@ spec:
         - name: carrera-api
           image: carrera-api
           imagePullPolicy: Always
-          envFrom:
-            - secretRef:
-                name: carrera-api-secrets
-            - configMapRef:
-                name: carrera-api-configmap
+          # envFrom:
+          #  - secretRef:
+          #      name: carrera-api-secrets
+          #  - configMapRef:
+          #      name: carrera-api-configmap
           ports:
             - containerPort: 3000
