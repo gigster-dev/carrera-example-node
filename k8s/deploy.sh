@@ -2,12 +2,10 @@
 set -e
 
 # passive vars
-CWD=$( cd $(dirname "${BASH_SOURCE[0]}") && pwd )
 GIT_COMMIT_SHA=$(git log -n 1 --pretty=format:"%H")
 GIT_COMMIT_SHA_SHORT=$(git log -n 1 --pretty=format:"%h")
 DEPLOY_SCRIPT_TIMESTAMP=$(date +"%s")
 DEPLOY_SCRIPT_TIMESTAMP_PRETTY=$(date "+%H:%M:%S %m/%d/%Y")
-BASE="$CWD/base"
 
 # service specific vars
 WORKSPACE_NAME=carrera
@@ -33,18 +31,27 @@ docker build -f ../Dockerfile -t $DOCKER_IMAGE_TAG .
 
 # push
 echo "pushing $DOCKER_IMAGE_TAG"
-docker push $DOCKER_IMAGE_TAG
+gcloud docker - push $DOCKER_IMAGE_TAG
 
 # compile manifests
 #kustomize edit set image carrera-api:$(git log -n 1 --pretty=format:"%H")
-cd base && kustomize edit set image carrera-api=$DOCKER_IMAGE_TAG && cd ..
+cd base
+kustomize edit set image carrera-api=$DOCKER_IMAGE_TAG
+kustomize edit add annotation deployTimestamp:$DEPLOY_SCRIPT_TIMESTAMP_PRETTY
+kustomize edit add annotation gitCommit:$GIT_COMMIT_SHA
+cd ..
 
 # build and apply manifests
 kustomize build base | kubectl apply -f -
 
+# annotate deployment history
 kubectl annotate deploy $DEPLOYMENT_NAME kubernetes.io/change-cause="$DEPLOYMENT_ANNOTATION" --overwrite
 
 # do rolling update
 kubectl rollout status deployments $DEPLOYMENT_NAME
 
-
+# remove annotations
+cd base
+kustomize edit remove annotation deployTimestamp
+kustomize edit remove annotation gitCommit
+cd ..
