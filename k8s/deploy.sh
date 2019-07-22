@@ -2,12 +2,10 @@
 set -e
 
 # passive vars
-CWD=$( cd $(dirname "${BASH_SOURCE[0]}") && pwd )
 GIT_COMMIT_SHA=$(git log -n 1 --pretty=format:"%H")
 GIT_COMMIT_SHA_SHORT=$(git log -n 1 --pretty=format:"%h")
 DEPLOY_SCRIPT_TIMESTAMP=$(date +"%s")
 DEPLOY_SCRIPT_TIMESTAMP_PRETTY=$(date "+%H:%M:%S %m/%d/%Y")
-BASE="$CWD/base"
 
 # service specific vars
 WORKSPACE_NAME=carrera
