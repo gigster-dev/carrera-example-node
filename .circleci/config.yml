@@ -111,7 +111,7 @@ jobs: # a collection of steps
       # install k8s
       - kubectl/install
 
-      - run:
+      - run: #set google credentials
           name: set GOOGLE_APPLICATION_CREDENTIALS in environment
           command: |
             echo ${GOOGLE_APPLICATION_CREDENTIALS} | base64 -d > ${HOME}/gcp-key.json
