@@ -1,2 +1,3 @@
 describe('server', () => {
+    it('serves', () => {})
 });
