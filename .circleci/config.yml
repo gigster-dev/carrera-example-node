@@ -108,6 +108,7 @@ jobs: # a collection of steps
             mv kustomize_*_${opsys}_amd64 /usr/local/bin/kustomize
             chmod u+x /usr/local/bin/kustomize
 
+      # install k8s
       - kubectl/install
 
       - run:
