@@ -20,11 +20,11 @@ app.get('/', (_request: express.Request, response: express.Response) => {
 app.all('/k8s-event', (request: express.Request, response: express.Response) => {
     let { body } = request;
 
-    if (typeof body === 'object') {
-        body = JSON.stringify(body);
+    if (typeof body === 'object' && body.text) {
+        body = body.text;
     }
 
-    logger.info(`Received event ${body}`);
+    logger.info(`[k8s_event] ${body}`);
 
     response.send('ok');
 });
