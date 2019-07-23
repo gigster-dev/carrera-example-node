@@ -6,4 +6,8 @@ namePrefix: carrera-
 resources:
 - deployment.yaml
 - service.yaml
+<<<<<<< HEAD
 # - ingress.yaml
+=======
+#- ingress.yaml
+>>>>>>> ci-84/add-k8s-deployment
