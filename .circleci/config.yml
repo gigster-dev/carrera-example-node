@@ -87,7 +87,7 @@ jobs: # a collection of steps
           path: results.html
           destination: results.html
 
-  deploy: # deploy
+  deploy:
     working_directory: ~/carrera-example-node # directory where steps will run
     docker: # run the steps with Docker
       - image: google/cloud-sdk # cloud sdk
