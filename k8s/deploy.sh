@@ -27,9 +27,7 @@ gcloud container clusters get-credentials $CLUSTER_NAME --zone $GCP_ZONE --proje
 # docker build and tag
 DOCKER_IMAGE_TAG="${DOCKER_REPOSITORY}/${DOCKER_SERVICE_TAG}"
 
-pushd ..
-pack build --builder heroku/buildpacks $DOCKER_IMAGE_TAG
-popd
+pack build --builder heroku/buildpacks --path .. $DOCKER_IMAGE_TAG
 
 # push
 echo "pushing $DOCKER_IMAGE_TAG"
