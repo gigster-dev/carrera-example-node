@@ -24,7 +24,7 @@ app.all('/k8s-event', (request: express.Request, response: express.Response) => 
         body = body.text;
     }
 
-    logger.info(`[k8s_event] ${body}`);
+    logger.info(`k8s_event`, { event: body });
 
     response.send('ok');
 });
