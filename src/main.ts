@@ -21,7 +21,7 @@ app.all('/k8s-event', (request: express.Request, response: express.Response) => 
     let { body } = request;
 
     if (typeof body === 'object') {
-        body = JSON.stringify(body)
+        body = JSON.stringify(body);
     }
 
     logger.info(`Received event ${body}`);
