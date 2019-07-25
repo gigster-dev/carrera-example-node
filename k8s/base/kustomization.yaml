@@ -1,9 +1,18 @@
 kind: Kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
+
 commonLabels:
   app: carrera-api
+
 namePrefix: carrera-
+
+configMapGenerator:
+  - name: carrera-api
+
 resources:
-- deployment.yaml
-- service.yaml
-#- ingress.yaml
+  - deployment.yaml
+  - service.yaml
+  #- ingress.yaml
+
+patchesStrategicMerge:
+  - configmap.yaml

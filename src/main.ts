@@ -1,44 +1,35 @@
-/**
- * Some predefined delays (in milliseconds).
- */
-/**
-* SL test
-*/
-/**
-* CG-75  and CG-74 Update Mock Task: Ignore Optional Cache Directory in JIRA CG 15 
-*/
+import * as express from 'express'
+import * as expressWinston from 'express-winston'
+import * as bodyParser from 'body-parser'
 
-/**
-* Testing Sumo Logic 
-*/
+import logger from './util/logger'
 
-export enum Delays {
-    Short = 500,
-    Medium = 2000,
-    Long = 5000,
-}
+const app = express();
 
-/**
- * Returns a Promise<string> that resolves after given time.
- *
- * @param {string} name - A name.
- * @param {number=} [delay=Delays.Medium] - Number of milliseconds to delay resolution of the Promise.
- * @returns {Promise<string>}
- */
-function delayedHello(
-    name: string,
-    delay: number = Delays.Medium
-): Promise<string> {
-    return new Promise((resolve: (value?: string) => void) =>
-        setTimeout(() => resolve(`Hello, ${name}`), delay)
-    );
-}
+app.use(expressWinston.logger({
+    winstonInstance: logger
+}));
 
-// Below are examples of using TSLint errors suppression
-// Here it is suppressing missing type definitions for greeter function
+app.use(bodyParser.json());
+app.use(bodyParser.text());
 
-// tslint:disable-next-line typedef
-export async function greeter(name) {
-    // tslint:disable-next-line no-unsafe-any no-return-await
-    return await delayedHello(name, Delays.Long);
-}
+app.get('/', (_request: express.Request, response: express.Response) => {
+    response.send('ok');
+});
+
+app.all('/k8s-event', (request: express.Request, response: express.Response) => {
+    let { body } = request;
+
+    if (typeof body === 'object' && body.text) {
+        body = body.text;
+    }
+
+    logger.info(`k8s_event`, { event: body });
+
+    response.send('ok');
+});
+
+const port = process.env.PORT || 8080;
+app.listen(port, () => {
+    logger.info(`Server listening on ${port}`);
+});
