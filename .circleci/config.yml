@@ -135,4 +135,4 @@ workflows:
     - deploy:
         filters:
           branches:
-            only: /^ci.*/
+            only: /^master$/
