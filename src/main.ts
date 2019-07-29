@@ -6,6 +6,10 @@ import logger from './util/logger'
 
 const app = express();
 
+/*
+Add new user flow test
+*/
+
 app.use(expressWinston.logger({
     winstonInstance: logger
 }));
