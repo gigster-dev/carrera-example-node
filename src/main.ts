@@ -6,6 +6,10 @@ import logger from './util/logger'
 
 const app = express();
 
+/*
+add nos to the tail pipe
+*/
+
 app.use(expressWinston.logger({
     winstonInstance: logger
 }));
