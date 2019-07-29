@@ -7,7 +7,7 @@ import logger from './util/logger'
 const app = express();
 
 /*
-add nos to the tail pipe
+delete me
 */
 
 app.use(expressWinston.logger({
