@@ -6,10 +6,6 @@ import logger from './util/logger'
 
 const app = express();
 
-/*
-delete me
-*/
-
 app.use(expressWinston.logger({
     winstonInstance: logger
 }));
