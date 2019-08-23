@@ -1,0 +1,17 @@
+harnessApiVersion: '1.0'
+type: GIT
+branch: master
+keyAuth: false
+url: https://github.com/gigster-dev/react-app-demo.git
+usageRestrictions:
+  appEnvRestrictions:
+  - appFilter:
+      filterType: ALL
+    envFilter:
+      filterTypes:
+      - PROD
+  - appFilter:
+      filterType: ALL
+    envFilter:
+      filterTypes:
+      - NON_PROD
