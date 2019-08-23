@@ -1,0 +1,23 @@
+harnessApiVersion: '1.0'
+type: KUBERNETES_CLUSTER
+caCert: amazonkms:ck_W3oAbRXSr9C2pr8aJ_Q
+clientCert: amazonkms:iWvnx9x2R6WNxE-q1t7HVg
+clientKey: amazonkms:JYineVhISsyoxI2RkwH5lw
+clientKeyPassphrase: amazonkms:dl8klJzkQ2e-3O2uJFU_FA
+delegateName: harness-k8s-delegate
+password: amazonkms:vNnBHub-TTmn_4iplnRBYA
+serviceAccountToken: amazonkms:Uc_LqHT7SuSOOlFsqtfI7w
+skipValidation: false
+usageRestrictions:
+  appEnvRestrictions:
+  - appFilter:
+      filterType: ALL
+    envFilter:
+      filterTypes:
+      - PROD
+  - appFilter:
+      filterType: ALL
+    envFilter:
+      filterTypes:
+      - NON_PROD
+useKubernetesDelegate: true
