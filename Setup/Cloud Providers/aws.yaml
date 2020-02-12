@@ -1,0 +1,13 @@
+harnessApiVersion: '1.0'
+type: AWS
+accessKey: AKIAZZWRGPXK2ZYXPTQV
+assumeCrossAccountRole: false
+secretKey: amazonkms:pA7JSESVQVaYbqinvFXetw
+usageRestrictions:
+  appEnvRestrictions:
+  - appFilter:
+      filterType: ALL
+    envFilter:
+      filterTypes:
+      - NON_PROD
+useEc2IamCredentials: false
