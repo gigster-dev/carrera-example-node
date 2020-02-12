@@ -1,0 +1,13 @@
+harnessApiVersion: '1.0'
+type: GIT
+keyAuth: false
+password: amazonkms:7iIQEttwRnSh9N7KqqeKcw
+url: https://github.com/terraform-aws-modules/terraform-aws-vpc.git
+usageRestrictions:
+  appEnvRestrictions:
+  - appFilter:
+      filterType: ALL
+    envFilter:
+      filterTypes:
+      - NON_PROD
+username: jwduarteg
