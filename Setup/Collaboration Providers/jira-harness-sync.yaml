@@ -1,0 +1,17 @@
+harnessApiVersion: '1.0'
+type: JIRA
+baseUrl: https://gigster.atlassian.net
+password: safeharness:7x1L5CoOR9SMSV6KKUBVqQ
+usageRestrictions:
+  appEnvRestrictions:
+  - appFilter:
+      filterType: ALL
+    envFilter:
+      filterTypes:
+      - PROD
+  - appFilter:
+      filterType: ALL
+    envFilter:
+      filterTypes:
+      - NON_PROD
+username: nicholas.gulrajani@gigster.com
