@@ -9,5 +9,10 @@ usageRestrictions:
       filterType: ALL
     envFilter:
       filterTypes:
+      - PROD
+  - appFilter:
+      filterType: ALL
+    envFilter:
+      filterTypes:
       - NON_PROD
 useEc2IamCredentials: false
